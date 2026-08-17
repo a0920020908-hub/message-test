@@ -9,7 +9,25 @@
 
 <h1>我的聊天室</h1>
 
-<p>網頁成功建立！</p>
+<p id="message">等待訊息...</p>
+
+<script>
+
+var number = 0;
+
+function updateMessage()
+{
+    number++;
+
+    document.getElementById("message").innerHTML =
+        "目前更新次數：" + number;
+}
+
+updateMessage();
+
+setInterval(updateMessage, 2000);
+
+</script>
 
 </body>
 </html>
