@@ -9,23 +9,43 @@
 
 <h1>我的聊天室</h1>
 
-<p id="message">等待訊息...</p>
+<div id="chat">讀取中...</div>
 
 <script>
 
-var number = 0;
-
-function updateMessage()
+function loadMessages()
 {
-    number++;
+    fetch("messages.json")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
 
-    document.getElementById("message").innerHTML =
-        "目前更新次數：" + number;
+            var chat = document.getElementById("chat");
+
+            chat.innerHTML = "";
+
+            for (var i = 0; i < data.length; i++)
+            {
+                var div = document.createElement("div");
+
+                div.innerHTML =
+                    "<b>" + data[i].name + "</b>：" +
+                    data[i].message;
+
+                chat.appendChild(div);
+            }
+        })
+        .catch(function(error) {
+
+            document.getElementById("chat").innerHTML =
+                "讀取訊息失敗";
+
+            console.log(error);
+        });
 }
 
-updateMessage();
-
-setInterval(updateMessage, 2000);
+loadMessages();
 
 </script>
 
