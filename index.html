@@ -1,59 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>我的聊天室</title>
+
+<meta charset="UTF-8">
+
+<title>我的聊天室</title>
+
+<style>
+
+body
+{
+font-family: Arial, sans-serif;
+margin: 30px;
+}
+
+#chat
+{
+margin-top: 20px;
+}
+
+.message
+{
+padding: 10px;
+margin-bottom: 8px;
+border-bottom: 1px solid #ddd;
+}
+
+.name
+{
+font-weight: bold;
+}
+
+</style>
+
 </head>
+
 
 <body>
 
 <h1>我的聊天室</h1>
 
-<div id="chat">讀取中...</div>
+<div id="chat">
+讀取中...
+</div>
+
 
 <script>
 
 function loadMessages()
 {
-    fetch("messages.json")
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
+fetch("http://192.168.1.105:8080/messages")
+.then(function(response)
+{
+return response.json();
+})
 
-            var chat = document.getElementById("chat");
+.then(function(data)
+{
+var chat =
+document.getElementById("chat");
 
-            chat.innerHTML = "";
+chat.innerHTML = "";
 
-            for (var i = 0; i < data.length; i++)
-            {
-                var div = document.createElement("div");
+for (var i = 0;
+i < data.length;
+i++)
+{
+var div =
+document.createElement("div");
 
-                div.innerHTML =
-                    "<b>" + data[i].name + "</b>：" +
-                    data[i].message;
+div.className =
+"message";
 
-                chat.appendChild(div);
-            }
-        })
-        .catch(function(error) {
+div.innerHTML =
+"<span class='name'>" +
+data[i].name +
+"</span>：" +
+data[i].message;
 
-            document.getElementById("chat").innerHTML =
-                "讀取訊息失敗";
+chat.appendChild(div);
+}
+})
 
-            console.log(error);
-        });
+.catch(function(error)
+{
+document.getElementById("chat").innerHTML =
+"無法連接聊天伺服器";
+
+console.log(error);
+});
 }
 
 
-/* 第一次進入網頁時立即讀取 */
+/* 第一次讀取 */
 loadMessages();
 
 
-/* 每 2 秒重新讀取一次 */
-setInterval(loadMessages, 2000);
+/* 每 2 秒更新 */
+setInterval(
+loadMessages,
+2000
+);
 
 </script>
 
 </body>
+
 </html>
