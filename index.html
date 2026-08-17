@@ -45,7 +45,13 @@ function loadMessages()
         });
 }
 
+
+/* 第一次進入網頁時立即讀取 */
 loadMessages();
+
+
+/* 每 2 秒重新讀取一次 */
+setInterval(loadMessages, 2000);
 
 </script>
 
